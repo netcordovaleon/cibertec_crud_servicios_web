@@ -5,6 +5,8 @@
 
 <h1>Listado Productos</h1>
 
+<button type="button" onclick="alert('hola mundo');">JAVASCRIPT</button>
+
 <div class="row mt-5">
     <div class="col-md-12">
 
@@ -45,6 +47,10 @@
                         <td>
                             @item.Stock
                         </td>
+                        <td>
+                            <a class="btn btn-danger" onclick="DeleteProduct(@item.Id)"><i class="fa-solid fa-trash"></i></a>
+                            <a class="btn btn-success" asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" ><i class="fa-solid fa-edit"></i></a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -60,3 +66,41 @@
         </a>
     </div>
 </div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+         
+
+        $(document).ready(function() {
+        
+            //Pagina ya cargo
+             
+        });
+
+        
+        function DeleteProduct(id) {
+
+            if (!confirm("Esta seguro que desea eliminar el registro?")) return;
+
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("DeleteProd","Product")' + '/' + id,
+                success: function (data) {
+                   alert(data);
+                },
+                error: function () {
+                    alert('Algo salio mal');
+                }
+            });
+
+        }
+
+
+    </script>
+
+}

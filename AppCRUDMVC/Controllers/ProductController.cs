@@ -52,9 +52,40 @@ namespace AppCRUDMVC.Controllers
             return RedirectToAction("List", "Product");
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
-            return View();
+            var findProduct = _productContext.Products.Where(c => c.Id == id).SingleOrDefault();
+            var model = new ProductViewModel();
+            model.Id = findProduct.Id;
+            model.Name = findProduct.Name;
+            model.Price = findProduct.Price;
+            model.Stock = findProduct.Stock;
+            return View(model);
         }
+
+        [HttpPost]
+        public IActionResult EditSaved(ProductViewModel model) {
+            var findProduct = _productContext.Products.SingleOrDefault(c => c.Id == model.Id);
+            if (findProduct != null)
+            {
+                findProduct.Name = model.Name;
+                findProduct.Price = model.Price.HasValue? model.Price.Value : 0;
+                findProduct.Stock = model.Stock.HasValue? model.Stock.Value : 0;
+                _productContext.SaveChanges();
+            }
+
+            return RedirectToAction("List", "Product");
+        }
+
+        [HttpGet]
+        public JsonResult DeleteProd(int id) {
+            var findProduct = _productContext.Products.SingleOrDefault(c => c.Id == id);
+            _productContext.Products.Remove(findProduct);
+            _productContext.SaveChanges();
+            return Json("Se elimino de manera correcta");
+        }
+ 
+
+
     }
 }
