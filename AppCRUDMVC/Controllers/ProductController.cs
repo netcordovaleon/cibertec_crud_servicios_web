@@ -84,6 +84,16 @@ namespace AppCRUDMVC.Controllers
             _productContext.SaveChanges();
             return Json("Se elimino de manera correcta");
         }
+
+        [HttpGet]
+        public JsonResult GetProductDetail(int id) {
+            var product = _productContext.Products.Where(c => c.Id == id).SingleOrDefault();
+            return Json(new { 
+                ProductName = product.Name,
+                ProductPrice = product.Price,
+                ProductStock = product.Stock
+            });
+        }
  
 
 

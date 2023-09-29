@@ -25,8 +25,8 @@ namespace AppCRUDMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ProductContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ProductDB"),
+            services.AddDbContext<ProductContext>(option =>
+                    option.UseSqlServer(Configuration.GetConnectionString("ProductDB"),
             ef => ef.MigrationsAssembly(typeof(ProductContext).Assembly.FullName)));
             services.AddControllersWithViews();
         }

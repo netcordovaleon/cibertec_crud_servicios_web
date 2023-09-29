@@ -3,12 +3,15 @@ using System.Threading.Tasks;
 
 namespace AppCRUDMVC.Database.ProductContext
 {
-    public class ProductContext : DbContext
+    public class ProductContext  : DbContext
     {
         //Seccion INDICO que ENTIDADES deben CONVERTIRSE en TABLAS
         public DbSet<ProductEntity> Products { get; set; }
-        public ProductContext(DbContextOptions<ProductContext> option) : base(option) { 
-        
+
+         
+
+        public ProductContext(DbContextOptions<ProductContext> option) : base(option)
+        {
         }
 
         public int SaveChanges()

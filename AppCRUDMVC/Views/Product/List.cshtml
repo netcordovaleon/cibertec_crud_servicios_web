@@ -5,13 +5,12 @@
 
 <h1>Listado Productos</h1>
 
-<button type="button" onclick="alert('hola mundo');">JAVASCRIPT</button>
 
 <div class="row mt-5">
     <div class="col-md-12">
 
 
-        <table class="table">
+        <table id="tbl" class="table">
             <thead>
                 <tr>
                     <th>
@@ -48,7 +47,8 @@
                             @item.Stock
                         </td>
                         <td>
-                            <a class="btn btn-danger" onclick="DeleteProduct(@item.Id)"><i class="fa-solid fa-trash"></i></a>
+                            <a class="btn btn-warning" onclick="ProductDetails(@item.Id)"><i class="fa-solid fa-info"></i></a>
+                            <a class="btn btn-danger" onclick="DeleteProducts(@item.Id)"><i class="fa-solid fa-trash"></i></a>
                             <a class="btn btn-success" asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" ><i class="fa-solid fa-edit"></i></a>
                         </td>
                     </tr>
@@ -72,34 +72,40 @@
 
     <script type="text/javascript">
 
-
-         
-
         $(document).ready(function() {
-        
-            //Pagina ya cargo
-             
+
+            new DataTable('#tbl');
         });
 
-        
-        function DeleteProduct(id) {
-
+        const DeleteProducts = (id) => {
             if (!confirm("Esta seguro que desea eliminar el registro?")) return;
-
 
             $.ajax({
                 type: "GET",
                 url: '@Url.Action("DeleteProd","Product")' + '/' + id,
                 success: function (data) {
-                   alert(data);
+                    alert(data);
+                    window.location.href = window.location.href;
                 },
                 error: function () {
                     alert('Algo salio mal');
                 }
             });
+        };
 
-        }
-
+        const ProductDetails = (id) => {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetProductDetail","Product")' + '/' + id,
+                success: (data)=> {
+                    const msgProd = data.productName + " \n " + data.productPrice;
+                    alert(msgProd);
+                },
+                error: () => {
+                    alert('Error');
+                }
+            });
+        };
 
     </script>
 
